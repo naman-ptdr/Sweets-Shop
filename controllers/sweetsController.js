@@ -12,6 +12,7 @@ export const createSweet = async (req, res) => {
     await sweet.save();
     res.status(201).json(sweet);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ msg: error.message });
   }
 };
@@ -22,6 +23,7 @@ export const getSweets = async (req, res) => {
     const sweets = await Sweet.find();
     res.json(sweets);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ msg: error.message });
   }
 };
@@ -41,6 +43,7 @@ export const searchSweets = async (req, res) => {
     const sweets = await Sweet.find(filter);
     res.json(sweets);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ msg: error.message });
   }
 };
@@ -60,6 +63,7 @@ export const updateSweet = async (req, res) => {
     await sweet.save();
     res.json(sweet);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ msg: error.message });
   }
 };
@@ -73,6 +77,7 @@ export const deleteSweet = async (req, res) => {
     await sweet.remove();
     res.json({ msg: 'Sweet deleted successfully' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ msg: error.message });
   }
 };
