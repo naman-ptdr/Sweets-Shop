@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import './App.css'
+
+
 
 function App() {
   return (
-    <>
-      <div>
-        <h2> Sweets-Shop </h2>
-      </div>
-    </>
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <h1 className="text-3xl font-bold text-blue-600">
+        Sweets Shop Management System
+      </h1>
+    </div>
   )
 }
 
