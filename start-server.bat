@@ -1,0 +1,9 @@
+@echo off
+echo Starting Sweet Shop Server...
+cd server
+echo Installing dependencies...
+npm install
+echo.
+echo Starting server...
+node test-server.js
+pause
