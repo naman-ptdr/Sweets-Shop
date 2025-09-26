@@ -18,9 +18,7 @@ export const protect = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('Decoded token:', decoded);
     req.user = await User.findById(decoded.id).select('-password');
-    console.log('Found user for req.user:', req.user && req.user.email);
     next();
   } catch (error) {
     res.status(401).json({ msg: 'Not authorized, token failed' });
