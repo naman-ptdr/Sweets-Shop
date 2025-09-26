@@ -1,308 +1,324 @@
-# Sweet Shop Management System — TDD Kata Implementation
+# Sweet Shop Management System
 
-A comprehensive full-stack Sweet Shop Management System built following Test-Driven Development principles. This project features a robust REST API with JWT authentication, role-based authorization, inventory management, and a modern React frontend with beautiful UI/UX design.
+A comprehensive full-stack Sweet Shop Management System built with modern web technologies. This application features a robust REST API with JWT authentication, role-based authorization, inventory management, and a beautiful React frontend with intuitive UI/UX design.
 
-Table of contents
-- Overview
-- Quick setup (server)
-- Environment variables
-- Dependencies (exact list installed)
-- NPM scripts & commands
-- API endpoints (examples)
-- Project structure
-- Running tests (verified)
-- Assessment checklist
-- Adding a client
+## Table of Contents
 
+- [Technologies Used](#technologies-used)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Installation & Setup](#installation--setup)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Folder Structure](#folder-structure)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-Overview
+## Technologies Used
 
-Frontend (client) — Setup & Notes
----------------------------------
+### Frontend
+- **React.js** - Modern JavaScript library for building user interfaces
+- **Vite** - Fast build tool and development server
+- **CSS3** - Custom styling with modern design patterns
+- **JavaScript (ES6+)** - Modern JavaScript features
 
-This repository also includes a modern React frontend in the `client/` folder. The UI was simplified to a clean, neutral palette and uses the images stored in `client/src/assets` (hero and product images).
+### Backend
+- **Node.js** - JavaScript runtime environment
+- **Express.js** - Fast, unopinionated web framework
+- **MongoDB** - NoSQL database for data storage
+- **Mongoose** - MongoDB object modeling for Node.js
 
-Quick setup (client)
-1. From the repository root, install and run the client:
+### Authentication & Security
+- **JWT (JSON Web Tokens)** - Secure authentication
+- **bcryptjs** - Password hashing
+- **CORS** - Cross-origin resource sharing
 
+### Development & Testing
+- **Jest** - JavaScript testing framework
+- **Supertest** - HTTP assertion library
+- **Nodemon** - Development server with auto-restart
+- **MongoDB Memory Server** - In-memory MongoDB for testing
+
+## Features
+
+### 🛍️ User Features
+- **Browse Sweets**: View all available sweets with details
+- **Search & Filter**: Find sweets by name, category, and price range
+- **View Details**: See detailed information about each sweet
+- **Purchase Items**: Buy sweets with real-time stock validation
+- **User Authentication**: Secure registration and login
+- **Responsive Design**: Works perfectly on all devices
+
+### 👨‍💼 Admin Features
+- **Sweet Management**: Add, edit, and delete sweets
+- **Inventory Control**: Manage stock levels and restock items
+- **User Management**: View and manage user accounts
+- **Dashboard**: Comprehensive admin dashboard
+- **Real-time Updates**: Instant inventory updates
+- **Advanced Search**: Filter and search through all sweets
+
+### 🔒 Security Features
+- **JWT Authentication**: Secure token-based authentication
+- **Role-based Authorization**: Separate user and admin permissions
+- **Password Encryption**: Secure password hashing with bcryptjs
+- **Protected Routes**: API endpoints protected by authentication middleware
+
+## Screenshots
+
+### Homepage
+![Homepage Screenshot](screenshots/homepage.png)
+*Clean and modern homepage showcasing featured sweets*
+
+### Sweet Collection
+![Sweet Collection Screenshot](screenshots/collection.png)
+*Browse all available sweets with search and filter options*
+
+### Sweet Details
+![Sweet Details Screenshot](screenshots/sweet-details.png)
+*Detailed view of individual sweets with purchase options*
+
+### Admin Dashboard
+![Admin Dashboard Screenshot](screenshots/admin-dashboard.png)
+*Comprehensive admin panel for managing sweets and inventory*
+
+### User Authentication
+![Login Screenshot](screenshots/login.png)
+*Secure user authentication with modern design*
+
+## Installation & Setup
+
+### Prerequisites
+- Node.js (v16 or higher)
+- MongoDB (local installation or MongoDB Atlas)
+- npm or yarn package manager
+
+### Backend Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Sweet-Shop
+   ```
+
+2. **Install server dependencies**
+   ```bash
+   cd server
+   npm install
+   ```
+
+3. **Environment Configuration**
+   Create a `.env` file in the `server` directory:
+   ```env
+   MONGO_URI=mongodb://localhost:27017
+   DB_NAME=sweets-shop-db
+   JWT_SECRET=your_super_secure_jwt_secret_key_here
+   PORT=5000
+   ```
+
+4. **Start the server**
+   ```bash
+   # Development mode with auto-restart
+   npm run dev
+   
+   # Production mode
+   npm start
+   ```
+
+5. **Run tests**
+   ```bash
+   npm test
+   ```
+
+### Frontend Setup
+
+1. **Install client dependencies**
+   ```bash
+   cd client
+   npm install
+   ```
+
+2. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+3. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+The application will be available at:
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:5000
+
+## Usage
+
+### For Users
+
+1. **Registration & Login**
+   - Create a new account or login with existing credentials
+   - Users are automatically assigned the "user" role
+
+2. **Browse Sweets**
+   - View all available sweets on the homepage
+   - Use search functionality to find specific sweets
+   - Filter by category and price range
+
+3. **Purchase Process**
+   - Click on any sweet to view details
+   - Purchase sweets with real-time stock validation
+   - Inventory updates automatically after purchase
+
+### For Admins
+
+1. **Admin Access**
+   - Register with role "admin" or have an admin promote your account
+   - Access the admin dashboard after login
+
+2. **Sweet Management**
+   - **Add New Sweets**: Create new sweet entries with name, category, price, and stock
+   - **Edit Sweets**: Update existing sweet information
+   - **Delete Sweets**: Remove sweets from the inventory
+   - **Restock Items**: Add more quantity to existing sweets
+
+3. **Inventory Monitoring**
+   - View real-time stock levels
+   - Monitor purchase activities
+   - Manage overall inventory health
+
+## API Endpoints
+
+### Authentication Endpoints
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|---------|
+| POST | `/api/auth/register` | Register new user | Public |
+| POST | `/api/auth/login` | User login | Public |
+
+### Sweet Management Endpoints
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|---------|
+| GET | `/api/sweets` | Get all sweets | Protected |
+| GET | `/api/sweets/search` | Search sweets with filters | Protected |
+| POST | `/api/sweets` | Create new sweet | Admin Only |
+| PUT | `/api/sweets/:id` | Update sweet | Admin Only |
+| DELETE | `/api/sweets/:id` | Delete sweet | Admin Only |
+| POST | `/api/sweets/:id/purchase` | Purchase sweet | User |
+| POST | `/api/sweets/:id/restock` | Restock sweet | Admin Only |
+
+### Example API Usage
+
+**Register a new user:**
 ```bash
-cd client
-npm install
-npm run dev
-```
-
-2. The Vite dev server will start (usually on http://localhost:5173). The frontend talks to the backend API at the base path configured in `client/src/services/api.js` — update the URL there if your server runs on a different host/port.
-
-Design & UX changes made
-- Simplified global CSS to a neutral, accessible palette in `client/src/index.css`.
-- Reworked card, button, and input utilities to improve spacing, contrast, and consistency.
-- Kept component structure and state logic intact to avoid breaking behavior.
-- Images used are the ones in `client/src/assets` (no external images used).
-
-Screenshots
------------
-
-Add screenshots of the running app here (replace placeholders):
-
-- Screenshot: Hero section — `screenshots/hero.png`
-- Screenshot: Sweets collection — `screenshots/collection.png`
-- Screenshot: Dashboard (admin) — `screenshots/dashboard.png`
-
-## My AI Usage
-
-This project was developed with significant assistance from AI tools to accelerate development and ensure best practices, as encouraged by the TDD Kata requirements.
-
-### AI Tools Used
-- **Amazon Q Developer**: Primary AI assistant for code generation, debugging, and architectural decisions
-- **GitHub Copilot**: Code completion and boilerplate generation
-
-### How AI Was Used
-
-#### Backend Development
-- **API Structure**: Used AI to design RESTful API endpoints following TDD requirements
-- **Authentication**: AI assisted in implementing JWT-based authentication with proper security practices
-- **Database Models**: Generated Mongoose schemas for User and Sweet models with validation
-- **Error Handling**: AI helped implement comprehensive error handling across all endpoints
-- **Testing**: Generated test cases for authentication and sweet management endpoints
-- **Search Functionality**: Implemented advanced search with name, category, and price range filters
-
-#### Frontend Development
-- **Component Architecture**: AI assisted in creating modern React component structure
-- **UI/UX Design**: Generated beautiful, responsive UI components with modern design patterns
-- **State Management**: Implemented proper state management for authentication and data fetching
-- **API Integration**: Created robust API client with error handling and loading states
-- **Purchase Flow**: Built real-time inventory management with optimistic updates
-- **Responsive Design**: AI helped create mobile-first responsive layouts
-
-#### Specific AI Contributions
-1. **Authentication System**: Complete auth flow including registration, login, and protected routes
-2. **Sweet Management**: CRUD operations with proper validation and error handling
-3. **Purchase Functionality**: Real-time inventory management with stock validation
-4. **Search & Filter**: Advanced search functionality with category filtering
-5. **UI Components**: Modern, accessible UI components with animations and micro-interactions
-6. **CSS Design System**: Comprehensive design system with gradients, animations, and responsive design
-7. **Testing Suite**: Generated comprehensive test cases covering edge cases and error scenarios
-
-### AI Impact on Workflow
-
-**Positive Impacts:**
-- **Speed**: Reduced development time by ~70% through rapid prototyping and boilerplate generation
-- **Quality**: AI suggested best practices for security, performance, and maintainability
-- **Consistency**: Maintained consistent code style and patterns throughout the project
-- **Testing**: Generated comprehensive test coverage including edge cases
-- **Documentation**: AI helped create detailed documentation and inline comments
-- **Modern Patterns**: Learned and implemented modern React hooks and patterns
-
-**Learning Experience:**
-- AI served as a pair programming partner, explaining concepts and suggesting improvements
-- Discovered new CSS techniques and design patterns for modern web applications
-- Gained insights into API security best practices and JWT implementation
-- Learned advanced MongoDB query patterns for search functionality
-
-**Human Oversight:**
-- All AI-generated code was reviewed and modified to fit specific project requirements
-- Business logic and user experience decisions were made independently
-- AI suggestions were evaluated for security, performance, and maintainability
-- Custom styling and branding decisions were human-driven
-- Test cases were validated against actual application behavior
-
-### Reflection
-
-AI tools significantly enhanced productivity while maintaining high code quality. The combination of AI assistance and human oversight resulted in a robust, well-tested application that fully meets all TDD Kata requirements. AI was particularly valuable for:
-
-- Generating boilerplate code that follows best practices
-- Implementing comprehensive error handling and validation
-- Creating beautiful, accessible UI components
-- Writing thorough test coverage
-- Maintaining consistent code style and documentation
-
-The project demonstrates how AI can be effectively used as a development accelerator while ensuring all code meets professional standards and requirements.
-
-Commit notes
-------------
-
-When AI was used to generate or assist with code, that was recorded in the commit message as a co-author following the project rules (e.g., "Co-authored-by: AI Tool Name <AI@users.noreply.github.com>").
-
-Next steps
-----------
-
-- (Optional) Further polish the design system and add a small CSS variables theme switcher for light/dark mode.
-- Add screenshots to `screenshots/` and commit them to the repo.
-- Run the test suite and a quick lint step after visual edits.
---------
-
-## Overview
-
-This project implements a comprehensive Sweet Shop Management System following TDD principles. It features:
-
-**Backend (Node.js/Express):**
-- RESTful API with JWT authentication
-- Role-based authorization (admin/user)
-- MongoDB database with Mongoose ODM
-- Complete CRUD operations for sweets
-- Purchase and restock functionality
-- Advanced search with filters
-- Comprehensive test suite with Jest + Supertest
-
-**Frontend (React):**
-- Modern single-page application
-- Beautiful, responsive UI/UX design
-- Real-time inventory management
-- User authentication and authorization
-- Search and filter functionality
-- Admin dashboard for sweet management
-- Purchase flow with stock validation
-
-Quick setup (server)
---------------------
-
-1. Make sure you have Node.js (>=16 recommended) and npm installed.
-2. From repository root, install server dependencies and run in dev mode:
-
-```bash
-cd server
-npm install
-npm run dev
-```
-
-The API will start on the port configured in `server/.env` or `process.env.PORT` (default shown below).
-
-Environment variables
----------------------
-
-Create `server/.env` with the values below (do not commit this file):
-
-```
-MONGO_URI=mongodb://localhost:27017
-DB_NAME=sweets-shop-db
-JWT_SECRET=replace_with_a_secure_secret
-PORT=5000
-```
-
-Dependencies (exact list installed)
-----------------------------------
-
-These are the packages declared in `server/package.json` (installed during `npm install`):
-
-Dependencies:
-- bcryptjs ^3.0.2 — password hashing
-- cors ^2.8.5 — CORS middleware
-- dotenv ^17.2.2 — environment variable loader
-- express ^5.1.0 — web framework
-- jsonwebtoken ^9.0.2 — JWT handling
-- mongoose ^8.18.2 — MongoDB ODM
-
-DevDependencies:
-- @babel/core ^7.28.4
-- @babel/preset-env ^7.28.3
-- babel-jest ^30.1.2
-- jest ^30.1.3
-- mongodb-memory-server ^10.2.1
-- nodemon ^3.1.10
-- supertest ^7.1.4
-
-These are installed by running `npm install` inside `server/`.
-
-NPM scripts & commands
-----------------------
-
-Defined in `server/package.json`:
-
-- `npm start` — run `node index.js` (production start)
-- `npm run dev` — run `nodemon index.js` (development with restarts)
-- `npm test` — run `jest --runInBand --detectOpenHandles` (runs tests)
-
-Recommended workflow (development)
-
-```bash
-# install dependencies
-cd server && npm install
-
-# run server in dev mode
-npm run dev
-
-# run tests
-npm test
-```
-
-API endpoints (summary & examples)
----------------------------------
-
-Base path: `/api`
-
-Auth endpoints
-- POST /api/auth/register — register a user (body: name,email,password,role)
-- POST /api/auth/login — login (body: email,password) -> returns JWT
-
-Sweets endpoints (protected)
-- GET /api/sweets — list sweets (requires valid token)
-- GET /api/sweets/search?name=...&category=...&minPrice=...&maxPrice=... — search
-- POST /api/sweets — create sweet (admin only)
-- PUT /api/sweets/:id — update sweet (admin only)
-- DELETE /api/sweets/:id — delete sweet (admin only)
-- POST /api/sweets/:id/purchase — purchase (user)
-- POST /api/sweets/:id/restock — restock (admin)
-
-Example: register, login, create a sweet (curl)
-
-```bash
-# register admin
 curl -X POST http://localhost:5000/api/auth/register \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"Admin","email":"admin@test.com","password":"admin123","role":"admin"}'
-
-# login
-curl -X POST http://localhost:5000/api/auth/login \
-  -H 'Content-Type: application/json' \
-  -d '{"email":"admin@test.com","password":"admin123"}'
-
-# create sweet (replace <TOKEN> with JWT from login)
-curl -X POST http://localhost:5000/api/sweets \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"Chocolate","category":"Candy","price":50,"quantityInStock":100}'
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Doe","email":"john@example.com","password":"password123","role":"user"}'
 ```
 
-Project structure (server-focused)
----------------------------------
-
-Root
-- README.md (this file)
-- .gitignore
-- server/
-  - index.js - server entry (starts app and exports for tests)
-  - package.json, package-lock.json
-  - config/db.js - MongoDB connection helper (uses MONGO_URI and DB_NAME)
-  - constants.js - app-level constants
-  - controllers/ - controllers for auth and sweets
-  - middlewares/ - auth middleware (protect + authorize)
-  - models/ - Mongoose models (User.js, Sweet.js)
-  - routes/ - express routers (authRoutes.js, sweetsRoutes.js)
-  - tests/ - Jest + Supertest tests (auth.test.js, sweets.test.js)
-
-Running tests (verified)
-------------------------
-
-I ran the test suite locally as part of preparing this README. Commands used and results:
-
+**Login:**
 ```bash
-cd server
-npm install
-npm test
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"john@example.com","password":"password123"}'
 ```
 
-Result (example output seen locally):
-- Test Suites: 2 passed, 2 total
-- Tests: 6 passed, 6 total
+**Create a sweet (Admin only):**
+```bash
+curl -X POST http://localhost:5000/api/sweets \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Chocolate Bar","category":"Chocolate","price":25,"quantityInStock":100}'
+```
 
-If tests fail for you, ensure your `.env` contains `JWT_SECRET` and that no other process uses the test ports.
+## Folder Structure
 
-Notes
------------------------
+```
+Sweet-Shop/
+├── client/                     # Frontend React application
+│   ├── public/                 # Public assets
+│   ├── src/                    # Source code
+│   │   ├── assets/            # Images and static files
+│   │   ├── components/        # React components
+│   │   ├── pages/             # Page components
+│   │   ├── services/          # API service functions
+│   │   ├── App.jsx            # Main App component
+│   │   └── main.jsx           # Entry point
+│   ├── package.json           # Frontend dependencies
+│   └── vite.config.js         # Vite configuration
+├── server/                     # Backend Node.js application
+│   ├── config/                # Configuration files
+│   │   └── db.js              # Database connection
+│   ├── controllers/           # Route controllers
+│   │   ├── authController.js  # Authentication logic
+│   │   └── sweetsController.js # Sweet management logic
+│   ├── middlewares/           # Custom middleware
+│   │   └── authMiddleware.js  # Authentication middleware
+│   ├── models/                # Database models
+│   │   ├── User.js            # User model
+│   │   └── Sweet.js           # Sweet model
+│   ├── routes/                # API routes
+│   │   ├── authRoutes.js      # Authentication routes
+│   │   └── sweetsRoutes.js    # Sweet management routes
+│   ├── tests/                 # Test files
+│   │   ├── auth.test.js       # Authentication tests
+│   │   └── sweets.test.js     # Sweet management tests
+│   ├── .env                   # Environment variables
+│   ├── index.js               # Server entry point
+│   └── package.json           # Backend dependencies
+├── screenshots/               # Application screenshots
+└── README.md                  # Project documentation
+```
 
-- The server uses `mongodb-memory-server` for tests, so you do not need a running MongoDB to run tests. To run the server in dev mode you do need a running MongoDB at `MONGO_URI` unless you point it to a cloud instance.
+## Contributing
 
+We welcome contributions to the Sweet Shop Management System! Here's how you can help:
+
+### Getting Started
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Run tests to ensure everything works
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
+
+### Development Guidelines
+- Follow existing code style and conventions
+- Write tests for new features
+- Update documentation as needed
+- Ensure all tests pass before submitting PR
+
+### Areas for Contribution
+- UI/UX improvements
+- Additional sweet categories
+- Enhanced search functionality
+- Performance optimizations
+- Bug fixes and security improvements
+
+
+## Contact
+
+**Developer**: Naman Patidar
+- **Email**: namanpatidar5555@gmail.com
+- **GitHub**: [@naman-ptdr](https://github.com/naman-ptdr)
+- **LinkedIn**: [Naman Patidar](https://www.linkedin.com/in/naman-patidar/)
 
 ---
 
-Last verified: 2025-09-26 — tests passed local on machine.
+### 🚀 Quick Start Commands
+
+```bash
+# Clone and setup backend
+git clone <repository-url>
+cd Sweet-Shop/server
+npm install
+npm run dev
+
+# Setup frontend (new terminal)
+cd ../client
+npm install
+npm run dev
+```
+
+
+**Happy coding! 🍭**
